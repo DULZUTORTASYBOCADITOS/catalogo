@@ -1,0 +1,424 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Catálogo Dulzú</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Dulzú: tortas por encargo, bocaditos, dulces temáticos y packs. Mira el catálogo y pide por WhatsApp.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Bakery","name":"Dulzú","slogan":"Tortas y Bocaditos","telephone":"+51939822834","sameAs":["https://www.instagram.com/dulzu.pe/"],"areaServed":{"@type":"City","name":"Lima"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Jost:wght@400;500&display=swap">
+<style>
+/* Layout: minimalista. Blanco con mucho aire, una sola columna centrada, pestañas de texto y grilla de fotos sin marcos. Acento vino; coral solo en el botón de pedido. Manual de marca Dulzú v1.1 (look claro único). */
+:root{
+  --vino:#7A1432; --coral:#D8334F; --cacao:#3F2B26; --camel:#6F5036;
+  --crema:#FBF4E8; --blanco:#FFFFFF; --linea:#EFE5DC;
+  --display:"Fraunces",Georgia,serif;
+  --body:"Jost","Avenir Next","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--blanco)}
+body{margin:0;background:var(--blanco);color:var(--cacao);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--blanco)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.in{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* Header */
+header .in{display:flex;align-items:center;justify-content:space-between;padding-block:22px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:34px;height:34px}
+.brand .wm{font-family:var(--display);font-size:24px;line-height:1}
+.wa-top,.wa-foot{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1A9A4B;border:1.5px solid #1DA851;text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 16px;border-radius:999px;white-space:nowrap;transition:background .2s}
+.wa-top:hover,.wa-foot:hover{background:#F0FAF3}
+.wa-top svg,.wa-foot svg{width:18px;height:18px;flex:none}
+.wa-foot b{color:#1A9A4B;font-weight:500;user-select:all}
+
+/* Intro */
+.intro{text-align:center;padding-block:64px 40px}
+.intro h1{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(36px,6vw,60px);line-height:1.08;letter-spacing:-.015em;color:var(--vino);text-wrap:balance}
+.intro h1 em{font-style:italic}
+.intro p{margin:16px auto 0;max-width:40ch;color:var(--camel)}
+
+/* Pestañas */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--blanco)}
+.tabs .in{display:flex;justify-content:center;gap:28px;overflow-x:auto;scrollbar-width:none;padding-block:16px}
+.tabs .in::-webkit-scrollbar{display:none}
+.tab{flex:none;background:none;border:0;padding:4px 0;font-size:15px;color:var(--camel);cursor:pointer;border-bottom:1px solid transparent}
+.tab:hover{color:var(--cacao)}
+.tab[aria-pressed="true"]{color:var(--vino);border-bottom-color:var(--vino)}
+
+/* Secciones */
+main{padding-bottom:96px}
+.sec{padding-top:56px;scroll-margin-top:60px}
+.sec h2{margin:0 0 6px;font-family:var(--display);font-weight:400;font-size:30px;color:var(--cacao)}
+.sec .note{margin:0 0 28px;font-size:14px;color:var(--camel)}
+.sec .note.badge{display:inline-block;margin:6px 0 32px;padding:8px 16px;border-radius:999px;background:#FCE9E8;color:var(--vino);font-size:15px;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 24px}
+.card{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;text-align:left;cursor:pointer;min-width:0}
+.pic{position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;background:var(--crema)}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.card:hover .pic img{transform:scale(1.03)}
+.ph{position:absolute;inset:0;display:grid;place-items:center}
+.ph svg{width:44px;height:44px;opacity:.55}
+.card .nm{font-family:var(--display);font-size:19px;line-height:1.25}
+.card .pr{margin-top:-7px;font-size:14px;color:var(--camel);font-variant-numeric:tabular-nums}
+.card.on .nm::after{content:" ·  agregado";font-family:var(--body);font-size:12.5px;color:var(--coral)}
+
+/* Slide (tortas) */
+.slwrap{min-width:0}
+.slider{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 48px) / 3.3);gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;padding-bottom:4px}
+.slider::-webkit-scrollbar{display:none}
+.slider .card{scroll-snap-align:start}
+.slnav{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--linea);transition:background .2s,width .2s}
+.dots i.on{background:var(--vino);width:18px;border-radius:3px}
+.arr{width:38px;height:38px;border-radius:50%;border:1px solid var(--linea);background:var(--blanco);color:var(--vino);cursor:pointer;margin-left:8px;font-size:16px}
+.arr:hover:not(:disabled){border-color:var(--vino)}
+.arr:disabled{opacity:.3;cursor:default}
+@media (max-width:760px){.slider{grid-auto-columns:72%;gap:14px}.arr{display:none}}
+
+/* Lista (bocaditos, packs) */
+.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--linea)}
+.list + h3{margin-top:48px}
+.sec h3{margin:0 0 6px;display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:400;font-style:italic;font-size:26px;line-height:1.2;color:var(--vino)}
+.sec h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--coral);flex:none}
+.row{display:flex;align-items:center;gap:16px;padding:15px 0;border-bottom:1px solid var(--linea)}
+.row .n{flex:1;min-width:0}
+.row .n small{display:block;font-size:13px;color:var(--camel)}
+.row .p{font-variant-numeric:tabular-nums;white-space:nowrap}
+.add{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--linea);background:var(--blanco);color:var(--vino);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.add:hover{border-color:var(--vino)}
+.add.on{background:var(--vino);border-color:var(--vino);color:var(--blanco)}
+
+/* Footer */
+footer{border-top:1px solid var(--linea)}
+footer .in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-block:32px calc(32px + 64px);font-size:14px;color:var(--camel)}
+footer b{font-weight:500;color:var(--cacao);user-select:all}
+
+/* Ficha */
+dialog{border:0;padding:0;border-radius:6px;max-width:820px;width:calc(100% - 32px);max-height:calc(100% - 32px);background:var(--blanco);color:var(--cacao)}
+dialog::backdrop{background:rgba(63,43,38,.4)}
+.dlg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.dlg .pic{border-radius:0}
+.cnt{position:absolute;right:10px;bottom:10px;background:rgba(255,255,255,.92);color:var(--cacao);font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px}
+.gwrap{background:var(--blanco)}
+.gal{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.gal::-webkit-scrollbar{display:none}
+.gal img{flex:0 0 100%;width:100%;height:100%;object-fit:contain;scroll-snap-align:center;background:var(--blanco)}
+.garr{position:absolute;top:50%;transform:translateY(-50%);left:10px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--vino);font-size:16px;cursor:pointer;box-shadow:0 2px 10px rgba(63,43,38,.12)}
+.garr.nx{left:auto;right:10px}
+.garr:disabled{opacity:0;pointer-events:none}
+.gcount{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(255,255,255,.92);font-size:12.5px;font-weight:500;padding:4px 11px;border-radius:999px;font-variant-numeric:tabular-nums}
+.dlg .body{padding:40px 32px 32px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.dlg h3{margin:0;font-family:var(--display);font-weight:400;font-size:30px;line-height:1.15;color:var(--vino)}
+.dlg p{margin:0;color:var(--camel)}
+.dlg .pr{font-size:16px;font-variant-numeric:tabular-nums}
+.dlg .acts{margin-top:auto;padding-top:12px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;background:var(--vino);color:var(--blanco);padding:12px 22px;font-size:15px;font-weight:500;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--coral)}
+.lnk{font-size:14px;color:var(--vino);text-decoration:none;border-bottom:1px solid currentColor}
+.x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:0;background:var(--blanco);font-size:20px;cursor:pointer;z-index:2}
+
+/* Barra de pedido */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--blanco);border-top:1px solid var(--linea);padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-top:12px}
+.bar .in{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.bar .t{min-width:0;font-size:14px;color:var(--camel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{font-weight:500;color:var(--cacao)}
+.bar .btn{background:var(--coral)}
+.bar .btn:hover{background:var(--vino)}
+.cart .body{padding:32px 28px 28px;display:flex;flex-direction:column;gap:14px}
+.cart h3{margin:0;font-family:var(--display);font-weight:400;font-size:26px;color:var(--vino)}
+.step{display:flex;align-items:center;gap:4px}
+.step button{width:28px;height:28px;border-radius:50%;border:1px solid var(--linea);background:var(--blanco);cursor:pointer}
+.step output{min-width:22px;text-align:center;font-variant-numeric:tabular-nums}
+.fld{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fld input{font:400 15px var(--body);color:var(--cacao);border:0;border-bottom:1px solid var(--linea);padding:10px 0;background:none;min-width:0}
+.fld input:focus{outline:none;border-bottom-color:var(--vino)}
+.tot{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+
+@media (max-width:760px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+  .tabs .in{justify-content:flex-start;gap:22px}
+  .intro{padding-block:40px 24px}
+  .dlg{grid-template-columns:1fr}
+  .dlg .pic{aspect-ratio:1/1}
+  .dlg .body{padding:24px 22px}
+  .fld{grid-template-columns:1fr}
+  .card .nm{font-size:17px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <path id="d" d="M0,-56 L50,-56 A56,56 0 0 1 50,56 L0,56 Z"/>
+  <g id="mono" fill="none" stroke-width="9" stroke-linejoin="round">
+    <use href="#d" stroke="#D8334F" transform="translate(-104,-102) rotate(45)"/>
+    <use href="#d" stroke="#EA7038" transform="translate(104,-102) rotate(135)"/>
+    <use href="#d" stroke="#E66B8C" transform="translate(-104,102) rotate(-45)"/>
+    <use href="#d" stroke="#7A1432" transform="translate(104,102) rotate(-135)"/>
+  </g>
+</defs></svg>
+
+<header>
+  <div class="in">
+    <a class="brand" href="#todo" aria-label="Dulzú, tortas y bocaditos">
+      <svg viewBox="-170 -168 340 336" aria-hidden="true"><use href="#mono"/></svg>
+      <span class="wm"><span style="color:#D8334F">D</span><span style="color:#EA7038">u</span><span style="color:#7A1432">l</span><span style="color:#D8334F">z</span><span style="color:#EA7038">ú</span></span>
+    </a>
+    <a class="wa-top wa-chat" id="waTop" href="https://wa.me/51939822834" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>WhatsApp</a>
+  </div>
+</header>
+
+<section class="intro in">
+  <h1>Lo dulce de <em>celebrar</em> juntos</h1>
+  <p>Tortas personalizadas · Bocaditos dulces y salados<br>Tu pedido hecho a la medida.</p>
+</section>
+
+<nav class="tabs" aria-label="Categorías"><div class="in" id="tabs"></div></nav>
+
+<main class="in" id="main"></main>
+
+<footer>
+  <div class="in">
+    <a class="wa-foot wa-chat" href="https://wa.me/51939822834" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>WhatsApp <b>939 822 834</b></a>
+    <a href="https://www.instagram.com/dulzu.pe/" target="_blank" rel="noopener" style="text-decoration:none">@dulzu.pe</a>
+    <span>Precios con IGV incluido</span>
+  </div>
+</footer>
+
+<div class="bar" id="bar" hidden><div class="in"><span class="t" id="barTxt"></span><button class="btn" type="button" id="openCart">Ver pedido</button></div></div>
+<dialog id="dlg" aria-labelledby="dlgT"></dialog>
+<dialog id="cart" class="cart" aria-labelledby="cartT"></dialog>
+
+<script>
+(function(){
+  /* =====================================================================
+     DATOS EDITABLES
+     - precio: número (S/ con IGV) o null = "A cotizar"
+     - foto: AQUÍ VAN LAS FOTOS. "" = espacio vacío de marca.
+       Usa fotos verticales 4:5 (1080 × 1350), fondo claro, sin texto.
+     ===================================================================== */
+  var TEL = "51939822834";
+  var CATS = [
+    {id:"tortas", nombre:"Tortas", nota:"Por encargo. Se cotizan según el diseño.", vista:"grid"},
+    {id:"bocaditos", nombre:"Bocaditos", nota:"Paquetes de 25 unidades.", vista:"list"},
+    {id:"tematicos", nombre:"Temáticos", nota:"Decorados con el tema de tu evento. Precio por unidad.", vista:"grid"},
+    {id:"packs", nombre:"Packs", nota:"Combinaciones de nuestra carta.", vista:"list"},
+    /* Postres ocultos por ahora: para mostrarlos, vuelve a agregar {id:"postres", nombre:"Postres", nota:"Turrón artesanal."} */
+  ];
+  var P = [
+    // ---- Tortas (a cotizar)
+    {id:"t1", cat:"tortas", nombre:"Tortas personalizadas", desc:"Para cumpleaños de niños y adultos: tu tema, personaje o idea, en el sabor y tamaño que elijas.", precio:null, foto:"personalizadas-19.jpg", fotos:["personalizadas-19.jpg","personalizadas-06.jpg","personalizadas-10.jpg","personalizadas-05.jpg","personalizadas-08.jpg","personalizadas-15.jpg","personalizadas-01.jpg","personalizadas-04.jpg","personalizadas-09.jpg","personalizadas-11.jpg","personalizadas-12.jpg","personalizadas-13.jpg","personalizadas-07.jpg","personalizadas-03.jpg","personalizadas-16.jpg","personalizadas-17.jpg","personalizadas-02.jpg"]},
+    {id:"t3", cat:"tortas", nombre:"Bautizo y Primera Comunión", desc:"Diseños delicados en tonos suaves, con los detalles de la ocasión.", precio:null, foto:"bautizo-02.jpg", fotos:["bautizo-02.jpg","bautizo-05.jpg","bautizo-01.jpg","bautizo-03.jpg","bautizo-04.jpg"]},
+    {id:"t4", cat:"tortas", nombre:"Tortas de pisos", desc:"Dos o más pisos, cada uno con su propio sabor.", precio:null, foto:"pisos-03.jpg", fotos:["pisos-03.jpg","pisos-02.jpg","pisos-01.jpg"]},
+    {id:"t6", cat:"tortas", nombre:"Tortas para empresas", desc:"Con el logo o los colores de tu marca, para agasajos y aniversarios.", precio:null, foto:"empresas-01.jpg", fotos:["empresas-01.jpg","empresas-02.jpg"]},
+
+    // ---- Bocaditos dulces (S/ por 25 u.)
+    {id:"b1",  cat:"bocaditos", grupo:"Dulces", nombre:"Mini Alfajores", desc:"", precio:33, u:25, foto:""},
+    {id:"b2",  cat:"bocaditos", grupo:"Dulces", nombre:"Mini Brownies", desc:"con castañas y pecanas", precio:43, u:25, foto:""},
+    {id:"b3",  cat:"bocaditos", grupo:"Dulces", nombre:"Trufas", desc:"", precio:38, u:25, foto:""},
+    {id:"b4",  cat:"bocaditos", grupo:"Dulces", nombre:"Niditos", desc:"", precio:33, u:25, foto:""},
+    {id:"b5",  cat:"bocaditos", grupo:"Dulces", nombre:"Tartaleta de Fresa", desc:"", precio:38, u:25, foto:""},
+    {id:"b6",  cat:"bocaditos", grupo:"Dulces", nombre:"Mini Pie de Manzana", desc:"", precio:38, u:25, foto:""},
+    {id:"b7",  cat:"bocaditos", grupo:"Dulces", nombre:"Pie de Limón", desc:"", precio:43, u:25, foto:""},
+    {id:"b8",  cat:"bocaditos", grupo:"Dulces", nombre:"Mini Carrot Cake", desc:"", precio:72, u:25, foto:""},
+    {id:"b9",  cat:"bocaditos", grupo:"Dulces", nombre:"Mini Cup de Cheesecake", desc:"de fresa", precio:89, u:25, foto:""},
+    {id:"b10", cat:"bocaditos", grupo:"Dulces", nombre:"Mini Cup de Cheesecake", desc:"de maracuyá", precio:89, u:25, foto:""},
+    {id:"b11", cat:"bocaditos", grupo:"Dulces", nombre:"Mini Cup de Cheesecake", desc:"de frutos rojos", precio:89, u:25, foto:""},
+    // ---- Bocaditos salados
+    {id:"s1", cat:"bocaditos", grupo:"Salados", nombre:"Petipán de Pollo", desc:"", precio:59, u:25, foto:""},
+    {id:"s2", cat:"bocaditos", grupo:"Salados", nombre:"Tequeños de Queso", desc:"presentación de 30 unidades", precio:59, u:30, foto:""},
+    {id:"s3", cat:"bocaditos", grupo:"Salados", nombre:"Empanada de Carne", desc:"", precio:59, u:25, foto:""},
+    {id:"s4", cat:"bocaditos", grupo:"Salados", nombre:"Mini Croissant Mixto", desc:"jamón y queso", precio:59, u:25, foto:""},
+    {id:"s5", cat:"bocaditos", grupo:"Salados", nombre:"Mini Croissant de Pollo", desc:"", precio:65, u:25, foto:""},
+    {id:"s6", cat:"bocaditos", grupo:"Salados", nombre:"Mini Butifarra", desc:"", precio:65, u:25, foto:""},
+    {id:"s7", cat:"bocaditos", grupo:"Salados", nombre:"Mini Frankfurter", desc:"", precio:106, u:25, foto:""},
+    {id:"s8", cat:"bocaditos", grupo:"Salados", nombre:"Alitas Brouchet", desc:"", precio:106, u:25, foto:""},
+
+    // ---- Dulces temáticos (a cotizar, por unidad)
+    {id:"m1", cat:"tematicos", nombre:"Cakepops", desc:"Bolitas de keke bañadas en chocolate y decoradas con tu tema.", precio:7.00, u:1, foto:"tematicos-cakepops-01.jpg"},
+    {id:"m2", cat:"tematicos", nombre:"Cupcakes decorados", desc:"Con crema y toppers en los colores de tu evento.", precio:8.60, u:1, foto:"tematicos-cupcakes-01.jpg"},
+    {id:"m3", cat:"tematicos", nombre:"Galletas decoradas", desc:"Galletas con glaseado y diseño personalizado.", precio:9.70, u:1, foto:"tematicos-galletas-01.jpg"},
+    {id:"m4", cat:"tematicos", nombre:"Lacepops", desc:"Paletas de keke bañadas en chocolate y decoradas con la temática de tu celebración.", precio:9.70, u:1, foto:"tematicos-lacepops-01.jpg"},
+    {id:"m5", cat:"tematicos", nombre:"Chocobrownies", desc:"Brownie bañado en chocolate y decorado.", precio:12.90, u:1, foto:"tematicos-chocobrownies-01.jpg"},
+    {id:"m6", cat:"tematicos", nombre:"Chocomanzanas", desc:"Manzanas bañadas en chocolate y decoradas.", precio:10.70, u:1, foto:"tematicos-chocomanzanas-01.jpg"},
+    {id:"m7", cat:"tematicos", nombre:"Choco Oreo", desc:"Galletas Oreo bañadas en chocolate y decoradas.", precio:6.50, u:1, foto:"tematicos-chocooreo-01.jpg"},
+
+    // ---- Postres
+    {id:"p1", cat:"postres", nombre:"Turrón artesanal 1 kg", desc:"Galleta de anís y ajonjolí con miel de frutas y grageas.", precio:55, foto:""},
+    {id:"p2", cat:"postres", nombre:"Turrón artesanal ½ kg", desc:"La misma receta, en tamaño para regalar.", precio:30, foto:""},
+    {id:"p3", cat:"postres", nombre:"Turrón cuchareable 8 oz", desc:"Capas de masa, miel y grageas en vaso, para comer con cuchara.", precio:11, foto:""}
+  ];
+
+  /* Packs: armados con productos y precios de la carta (precio = suma de la carta). */
+  var PACKS = [
+    {id:"k1", nombre:"Pack Dulce", items:["b1","b3","b2"], foto:""},
+    {id:"k2", nombre:"Pack Salado", items:["s2","s1","s3"], foto:""},
+    {id:"k3", nombre:"Pack Compartir", items:["b1","b3","s2","s4"], foto:""}
+  ];
+
+  var SABORES = ["Vainilla","Chocolate","Naranja","Keke inglés","Dubai pistacho"];
+
+  /* ===================================================================== */
+  var byId = {}; P.forEach(function(p){ byId[p.id]=p; });
+  PACKS.forEach(function(k){
+    k.cat="packs";
+    k.precio=k.items.reduce(function(s,id){return s+byId[id].precio;},0);
+    k.u=k.items.reduce(function(s,id){return s+(byId[id].u||0);},0);
+    k.desc=k.items.map(function(id){ var x=byId[id]; return x.nombre+(x.desc?" "+x.desc:""); }).join(" · ");
+    byId[k.id]=k;
+  });
+  var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+  var money=function(n){return "S/ "+n.toFixed(2);};
+  var full=function(p){return p.nombre+(p.desc&&p.cat==="bocaditos"?" "+p.desc:"");};
+  var wa=function(m){return "https://wa.me/"+TEL+"?text="+encodeURIComponent(m);};
+  var cart={}, active="todo";
+  try{var sv=JSON.parse(localStorage.getItem("dulzu-pedido")||"{}");for(var k in sv) if(byId[k]) cart[k]=sv[k];}catch(e){}
+  function save(){try{localStorage.setItem("dulzu-pedido",JSON.stringify(cart));}catch(e){}}
+
+  function pic(p){
+    return p.foto ? '<img src="'+esc(p.foto)+'" alt="'+esc(full(p))+'" loading="lazy">'
+      : '<div class="ph"><svg viewBox="-170 -168 340 336" aria-hidden="true"><use href="#mono"/></svg></div>';
+  }
+  function priceTxt(p){
+    if(p.precio==null) return "A cotizar";
+    return money(p.precio)+(p.cat==="bocaditos"?" · "+p.u+" u.":p.cat==="packs"?" · "+p.u+" u.":p.cat==="tematicos"?" c/u":"");
+  }
+
+  /* Pestañas */
+  var tabs=document.getElementById("tabs");
+  tabs.innerHTML='<button class="tab" type="button" data-c="todo">Todo</button>'+CATS.map(function(c){return '<button class="tab" type="button" data-c="'+c.id+'">'+c.nombre+'</button>';}).join("");
+  tabs.addEventListener("click",function(e){var b=e.target.closest(".tab"); if(b) setCat(b.dataset.c,true);});
+  function setCat(c,scroll){
+    active=c;
+    tabs.querySelectorAll(".tab").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.c===c?"true":"false");});
+    if(location.hash.slice(1)!==c) history.replaceState(null,"","#"+c);
+    render();
+    if(scroll) document.querySelector(".tabs").scrollIntoView({block:"start"});
+  }
+
+  /* Render */
+  var main=document.getElementById("main");
+  function row(p){
+    var on=cart[p.id]>0;
+    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span><span class="p">'+money(p.precio)+'</span>'+
+      '<button class="add'+(on?' on':'')+'" type="button" data-add="'+p.id+'" aria-label="'+(on?'Quitar ':'Agregar ')+esc(full(p))+'">'+(on?'✓':'+')+'</button></li>';
+  }
+  function card(p){
+    return '<button class="card'+(cart[p.id]?' on':'')+'" type="button" data-open="'+p.id+'"><div class="pic">'+pic(p)+(p.fotos&&p.fotos.length>1?'<span class="cnt">'+p.fotos.length+' fotos</span>':'')+'</div><span class="nm">'+esc(p.nombre)+'</span><span class="pr">'+priceTxt(p)+'</span></button>';
+  }
+  function section(c){
+    var h='<section class="sec" id="sec-'+c.id+'"><h2>'+c.nombre+'</h2><p class="note'+(c.id==="bocaditos"?" badge":"")+'">'+c.nota+'</p>';
+    if(c.id==="bocaditos"){
+      ["Dulces","Salados"].forEach(function(g){
+        h+='<h3>'+g+'</h3><ul class="list">'+P.filter(function(p){return p.cat==="bocaditos"&&p.grupo===g;}).map(row).join("")+'</ul>';
+      });
+    } else if(c.id==="packs"){
+      h+='<ul class="list">'+PACKS.map(row).join("")+'</ul>';
+    } else if(c.id==="tortas"){
+      h+='<div class="slwrap"><div class="slider" id="sl-tortas" tabindex="0" aria-label="Tortas, desliza para ver más">'+P.filter(function(p){return p.cat===c.id;}).map(card).join("")+'</div>'+
+        '<div class="slnav"><span class="dots" id="sl-dots"></span><span><button class="arr" type="button" data-sl="-1" aria-label="Anterior">←</button><button class="arr" type="button" data-sl="1" aria-label="Siguiente">→</button></span></div></div>';
+    } else {
+      h+='<div class="grid">'+P.filter(function(p){return p.cat===c.id;}).map(card).join("")+'</div>';
+    }
+    return h+'</section>';
+  }
+  function render(){
+    main.innerHTML=(active==="todo"?CATS:CATS.filter(function(c){return c.id===active;})).map(section).join("");
+    initSlider();
+  }
+  /* Slide de tortas */
+  function initSlider(){
+    var sl=document.getElementById("sl-tortas"); if(!sl) return;
+    var dots=document.getElementById("sl-dots"), n=sl.children.length;
+    dots.innerHTML=Array.prototype.map.call(sl.children,function(_,i){return '<i></i>';}).join("");
+    function upd(){
+      var w=sl.children[0].getBoundingClientRect().width+parseFloat(getComputedStyle(sl).columnGap||0);
+      var i=Math.round(sl.scrollLeft/w); if(sl.scrollLeft+sl.clientWidth>=sl.scrollWidth-4) i=n-1;
+      Array.prototype.forEach.call(dots.children,function(d,k){d.className=k===i?"on":"";});
+      var a=main.querySelectorAll("[data-sl]"); a[0].disabled=sl.scrollLeft<4; a[1].disabled=sl.scrollLeft+sl.clientWidth>=sl.scrollWidth-4;
+    }
+    var nav=main.querySelector(".slnav"), fit=function(){ nav.hidden = sl.scrollWidth<=sl.clientWidth+4; };
+    window.addEventListener("resize",fit); fit();
+    sl.addEventListener("scroll",upd,{passive:true}); window.addEventListener("resize",upd); upd();
+  }
+  main.addEventListener("click",function(e){
+    var s=e.target.closest("[data-sl]"); if(s){var sl=document.getElementById("sl-tortas"); sl.scrollBy({left:(+s.dataset.sl)*sl.children[0].getBoundingClientRect().width,behavior:"smooth"});return;}
+    var a=e.target.closest("[data-add]"); if(a){toggle(a.dataset.add);return;}
+    var o=e.target.closest("[data-open]"); if(o) openItem(o.dataset.open);
+  });
+  function toggle(id){ if(cart[id]) delete cart[id]; else cart[id]=1; save(); render(); updateBar(); var el=main.querySelector('[data-add="'+id+'"]'); if(el) el.focus(); }
+
+  /* Ficha */
+  var dlg=document.getElementById("dlg");
+  function openItem(id){
+    var p=byId[id], on=cart[id]>0;
+    dlg.innerHTML='<button class="x" type="button" data-close aria-label="Cerrar">×</button><div class="dlg">'+(p.fotos&&p.fotos.length>1?gallery(p):'<div class="pic">'+pic(p)+'</div>')+'<div class="body">'+
+      '<h3 id="dlgT">'+esc(p.nombre)+'</h3>'+(p.desc?'<p>'+esc(p.desc)+'</p>':'')+'<div class="pr">'+priceTxt(p)+'</div>'+
+      '<div class="acts"><button class="btn" type="button" data-tog="'+id+'">'+(on?'Quitar del pedido':'Agregar al pedido')+'</button>'+
+      '<a class="lnk" target="_blank" rel="noopener" href="'+wa("¡Hola Dulzú! Vi en su catálogo: "+full(p)+". Quiero "+(p.precio==null?"cotizarlo":"pedirlo")+".\n\nFecha del evento: \nDistrito: ")+'">Preguntar por WhatsApp</a></div></div></div>';
+    if(!dlg.open) dlg.showModal();
+    initGal();
+  }
+  /* Galería de fotos dentro de la ficha */
+  function gallery(p){
+    return '<div class="pic gwrap"><div class="gal" id="gal" tabindex="0" aria-label="Fotos de '+esc(p.nombre)+', desliza para ver más">'+
+      p.fotos.map(function(f,i){return '<img src="'+esc(f)+'" alt="'+esc(p.nombre)+', foto '+(i+1)+'" loading="'+(i<2?'eager':'lazy')+'">';}).join("")+
+      '</div><button class="garr" type="button" data-g="-1" aria-label="Foto anterior">←</button><button class="garr nx" type="button" data-g="1" aria-label="Foto siguiente">→</button>'+
+      '<span class="gcount" id="gcount">1 / '+p.fotos.length+'</span></div>';
+  }
+  function initGal(){
+    var g=document.getElementById("gal"); if(!g) return;
+    var c=document.getElementById("gcount"), n=g.children.length;
+    var a=dlg.querySelectorAll("[data-g]");
+    function upd(){ var i=Math.round(g.scrollLeft/g.clientWidth); c.textContent=(i+1)+" / "+n; a[0].disabled=i<=0; a[1].disabled=i>=n-1; }
+    g.addEventListener("scroll",upd,{passive:true}); upd();
+  }
+  dlg.addEventListener("click",function(e){
+    if(e.target===dlg||e.target.closest("[data-close]")){dlg.close();return;}
+    var gb=e.target.closest("[data-g]"); if(gb){var g=document.getElementById("gal"); g.scrollBy({left:(+gb.dataset.g)*g.clientWidth,behavior:"smooth"}); return;}
+    var t=e.target.closest("[data-tog]"); if(t){toggle(t.dataset.tog);dlg.close();}
+  });
+
+  /* Pedido */
+  var bar=document.getElementById("bar"), barTxt=document.getElementById("barTxt"), cd=document.getElementById("cart"), fecha="", dist="";
+  function lines(){return Object.keys(cart).map(function(id){return {p:byId[id],q:cart[id]};});}
+  function tot(){var t=0,c=0;lines().forEach(function(l){if(l.p.precio==null)c++;else t+=l.p.precio*l.q;});return {t:t,c:c,n:lines().length};}
+  function updateBar(){var s=tot(); bar.hidden=!s.n; barTxt.innerHTML='<b>'+s.n+(s.n===1?' producto':' productos')+'</b>'+(s.t?' · '+money(s.t):'')+(s.c?' · '+s.c+' a cotizar':'');}
+  function msg(){
+    var s=tot();
+    return "¡Hola Dulzú! Quiero hacer este pedido:\n"+lines().map(function(l){var p=l.p;
+      return "• "+(p.precio==null?(l.q>1?l.q+" × ":"")+p.nombre+" (a cotizar)":l.q+(p.cat==="bocaditos"?" paq. ":p.cat==="tematicos"?" u. ":" ")+full(p)+" — "+money(p.precio*l.q));}).join("\n")+
+      (s.t?"\n\nTotal referencial: "+money(s.t)+" (IGV incluido)":"")+"\n\nFecha del evento: "+fecha+"\nDistrito: "+dist;
+  }
+  function renderCart(){
+    var s=tot();
+    cd.innerHTML='<button class="x" type="button" data-close aria-label="Cerrar">×</button><div class="body"><h3 id="cartT">Tu pedido</h3><ul class="list">'+
+      lines().map(function(l){var p=l.p;return '<li class="row"><span class="n">'+esc(full(p))+'</span><span class="step"><button type="button" data-m="'+p.id+'" aria-label="Menos">−</button><output>'+l.q+'</output><button type="button" data-p="'+p.id+'" aria-label="Más">+</button></span><span class="p">'+(p.precio==null?'A cotizar':money(p.precio*l.q))+'</span></li>';}).join("")+'</ul>'+
+      '<div class="fld"><input id="f-fecha" type="text" placeholder="Fecha del evento" aria-label="Fecha del evento" value="'+esc(fecha)+'"><input id="f-dist" type="text" placeholder="Distrito" aria-label="Distrito" value="'+esc(dist)+'"></div>'+
+      (s.t?'<div class="tot"><span>Total referencial</span><span>'+money(s.t)+'</span></div>':'')+
+      '<a class="btn" id="send" target="_blank" rel="noopener" href="'+wa(msg())+'" style="background:var(--coral)">Enviar por WhatsApp</a></div>';
+  }
+  document.getElementById("openCart").addEventListener("click",function(){renderCart();cd.showModal();});
+  cd.addEventListener("click",function(e){
+    if(e.target===cd||e.target.closest("[data-close]")){cd.close();return;}
+    var m=e.target.closest("[data-m]"),p=e.target.closest("[data-p]");
+    if(m){var id=m.dataset.m;cart[id]--;if(cart[id]<=0)delete cart[id];} else if(p){cart[p.dataset.p]++;} else return;
+    save();renderCart();render();updateBar(); if(!tot().n) cd.close();
+  });
+  cd.addEventListener("input",function(e){
+    if(e.target.id==="f-fecha")fecha=e.target.value; if(e.target.id==="f-dist")dist=e.target.value;
+    document.getElementById("send").href=wa(msg());
+  });
+
+  document.querySelectorAll(".wa-chat").forEach(function(a){ a.href=wa("¡Hola Dulzú! Vi su catálogo y quiero hacer una consulta."); });
+  function isView(h){return h==="todo"||CATS.some(function(c){return c.id===h;});}
+  window.addEventListener("hashchange",function(){var h=location.hash.slice(1); if(isView(h)&&h!==active) setCat(h,true);});
+  var h0=location.hash.slice(1); setCat(isView(h0)?h0:"todo",false);
+  updateBar();
+})();
+</script>
+
+</body></html>
