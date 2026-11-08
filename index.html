@@ -148,6 +148,16 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   .fld{grid-template-columns:1fr}
   .card .nm{font-size:17px}
 }
+
+/* Carrusel de bocaditos */
+.car{position:relative;aspect-ratio:1/1;max-width:560px;margin:6px auto 30px;border-radius:14px;overflow:hidden;background:var(--crema);touch-action:pan-y}
+.car img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+.car img.on{opacity:1}
+.car .cap{position:absolute;left:14px;top:14px;background:rgba(255,255,255,.92);color:var(--vino);font-size:13.5px;font-weight:500;padding:5px 12px;border-radius:999px;pointer-events:none}
+.car .cdots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:8px}
+.car .cdots button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.6);box-shadow:0 0 0 1px rgba(63,43,38,.18);cursor:pointer}
+.car .cdots button.on{background:var(--vino);box-shadow:none}
+@media (prefers-reduced-motion:reduce){.car img{transition:none}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
 
@@ -312,6 +322,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   function section(c){
     var h='<section class="sec" id="sec-'+c.id+'"><h2>'+c.nombre+'</h2><p class="note'+(c.id==="bocaditos"?" badge":"")+'">'+c.nota+'</p>';
     if(c.id==="bocaditos"){
+      h+=carrusel();
       ["Dulces","Salados"].forEach(function(g){
         h+='<h3>'+g+'</h3><ul class="list">'+P.filter(function(p){return p.cat==="bocaditos"&&p.grupo===g;}).map(row).join("")+'</ul>';
       });
@@ -325,9 +336,47 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     }
     return h+'</section>';
   }
+  /* Carrusel de bocaditos (dulces y salados) */
+  var CARRUSEL=[
+    {src:"bocaditos-carrusel-01.jpg",alt:"Bocaditos dulces: tartaletas con crema y fruta roja",cap:"Dulces"},
+    {src:"bocaditos-carrusel-02.jpg",alt:"Bocaditos salados: mini sándwiches",cap:"Salados"}
+  ];
+  function carrusel(){
+    return '<div class="car" id="car-boc" aria-roledescription="carrusel" aria-label="Fotos de bocaditos dulces y salados">'+
+      CARRUSEL.map(function(f,i){return '<img src="'+f.src+'" alt="'+esc(f.alt)+'"'+(i?' loading="lazy"':'')+(i===0?' class="on"':'')+'>';}).join("")+
+      '<span class="cap" id="car-cap">'+CARRUSEL[0].cap+'</span>'+
+      '<span class="cdots">'+CARRUSEL.map(function(f,i){return '<button type="button" data-car="'+i+'" aria-label="Ver foto '+(i+1)+': '+esc(f.cap)+'"'+(i===0?' class="on"':'')+'></button>';}).join("")+'</span></div>';
+  }
+  var carTimer=null;
+  function initCarrusel(){
+    clearInterval(carTimer);
+    var car=document.getElementById("car-boc"); if(!car) return;
+    var imgs=car.querySelectorAll("img"), dots=car.querySelectorAll("[data-car]"), cap=document.getElementById("car-cap"), i=0, x0=null;
+    function ir(n){
+      i=(n+imgs.length)%imgs.length;
+      Array.prototype.forEach.call(imgs,function(m,k){m.className=k===i?"on":"";});
+      Array.prototype.forEach.call(dots,function(d,k){d.className=k===i?"on":"";});
+      cap.textContent=CARRUSEL[i].cap;
+    }
+    function play(){
+      clearInterval(carTimer);
+      if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+      carTimer=setInterval(function(){ if(!document.hidden) ir(i+1); },4500);
+    }
+    car.addEventListener("click",function(e){var b=e.target.closest("[data-car]"); if(b){ir(Number(b.getAttribute("data-car"))); play();}});
+    car.addEventListener("touchstart",function(e){x0=e.touches[0].clientX;},{passive:true});
+    car.addEventListener("touchend",function(e){
+      if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
+      if(Math.abs(dx)>40){ir(i+(dx<0?1:-1)); play();}
+    },{passive:true});
+    car.addEventListener("mouseenter",function(){clearInterval(carTimer);});
+    car.addEventListener("mouseleave",play);
+    play();
+  }
   function render(){
     main.innerHTML=(active==="todo"?CATS:CATS.filter(function(c){return c.id===active;})).map(section).join("");
     initSlider();
+    initCarrusel();
   }
   /* Slide de tortas */
   function initSlider(){
