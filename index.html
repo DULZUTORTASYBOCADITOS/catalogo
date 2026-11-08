@@ -323,7 +323,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   function section(c){
     var h='<section class="sec" id="sec-'+c.id+'"><h2>'+c.nombre+'</h2><p class="note'+(c.id==="bocaditos"?" badge":"")+'">'+c.nota+'</p>';
     if(c.id==="bocaditos"){
-      h+=carrusel();
+      h+=carrusel("boc");
       ["Dulces","Salados"].forEach(function(g){
         h+='<h3>'+g+'</h3><ul class="list">'+P.filter(function(p){return p.cat==="bocaditos"&&p.grupo===g;}).map(row).join("")+'</ul>';
       });
@@ -333,47 +333,58 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
       h+='<div class="slwrap"><div class="slider" id="sl-tortas" tabindex="0" aria-label="Tortas, desliza para ver más">'+P.filter(function(p){return p.cat===c.id;}).map(card).join("")+'</div>'+
         '<div class="slnav"><span class="dots" id="sl-dots"></span><span><button class="arr" type="button" data-sl="-1" aria-label="Anterior">←</button><button class="arr" type="button" data-sl="1" aria-label="Siguiente">→</button></span></div></div>';
     } else {
+      if(c.id==="tematicos") h+=carrusel("tem");
       h+='<div class="grid">'+P.filter(function(p){return p.cat===c.id;}).map(card).join("")+'</div>';
     }
     return h+'</section>';
   }
-  /* Carrusel de bocaditos (dulces y salados) */
-  var CARRUSEL=[
-    {src:"bocaditos-carrusel-01.jpg",alt:"Bocaditos dulces: tartaletas con crema y fruta roja",cap:"Dulces"},
-    {src:"bocaditos-carrusel-02.jpg",alt:"Bocaditos salados: mini sándwiches",cap:"Salados"},
-    {src:"bocaditos-carrusel-03.jpg",alt:"Bocaditos dulces: mini alfajores con manjar y azúcar en polvo",cap:"Dulces"}
-  ];
-  function carrusel(){
-    return '<div class="car" id="car-boc" aria-roledescription="carrusel" aria-label="Fotos de bocaditos dulces y salados">'+
-      CARRUSEL.map(function(f,i){return '<img src="'+f.src+'" alt="'+esc(f.alt)+'"'+(i?' loading="lazy"':'')+(i===0?' class="on"':'')+'>';}).join("")+
-      '<span class="cap" id="car-cap">'+CARRUSEL[0].cap+'</span>'+
-      '<span class="cdots">'+CARRUSEL.map(function(f,i){return '<button type="button" data-car="'+i+'" aria-label="Ver foto '+(i+1)+': '+esc(f.cap)+'"'+(i===0?' class="on"':'')+'></button>';}).join("")+'</span></div>';
+  /* Carruseles de fotos (bocaditos y temáticos) */
+  var CARRUSELES={
+    boc:{label:"Fotos de bocaditos dulces y salados",fotos:[
+      {src:"bocaditos-carrusel-01.jpg",alt:"Bocaditos dulces: tartaletas con crema y fruta roja",cap:"Dulces"},
+      {src:"bocaditos-carrusel-02.jpg",alt:"Bocaditos salados: mini sándwiches",cap:"Salados"},
+      {src:"bocaditos-carrusel-03.jpg",alt:"Bocaditos dulces: mini alfajores con manjar y azúcar en polvo",cap:"Dulces"}
+    ]},
+    tem:{label:"Fotos de dulces temáticos",fotos:[
+      {src:"tematicos-carrusel-01.jpg",alt:"Cupcakes temáticos de unicornio en cúpulas individuales",cap:"Cumpleaños"},
+      {src:"tematicos-carrusel-02.jpg",alt:"Galletas, cakepops, lacepops y cupcakes temáticos de bautizo y comunión",cap:"Bautizo y Comunión"}
+    ]}
+  };
+  function carrusel(k){
+    var C=CARRUSELES[k].fotos;
+    return '<div class="car" data-carid="'+k+'" aria-roledescription="carrusel" aria-label="'+esc(CARRUSELES[k].label)+'">'+
+      C.map(function(f,i){return '<img src="'+f.src+'" alt="'+esc(f.alt)+'"'+(i?' loading="lazy"':'')+(i===0?' class="on"':'')+'>';}).join("")+
+      '<span class="cap">'+esc(C[0].cap)+'</span>'+
+      '<span class="cdots">'+C.map(function(f,i){return '<button type="button" data-car="'+i+'" aria-label="Ver foto '+(i+1)+': '+esc(f.cap)+'"'+(i===0?' class="on"':'')+'></button>';}).join("")+'</span></div>';
   }
-  var carTimer=null;
+  var carTimers=[];
   function initCarrusel(){
-    clearInterval(carTimer);
-    var car=document.getElementById("car-boc"); if(!car) return;
-    var imgs=car.querySelectorAll("img"), dots=car.querySelectorAll("[data-car]"), cap=document.getElementById("car-cap"), i=0, x0=null;
-    function ir(n){
-      i=(n+imgs.length)%imgs.length;
-      Array.prototype.forEach.call(imgs,function(m,k){m.className=k===i?"on":"";});
-      Array.prototype.forEach.call(dots,function(d,k){d.className=k===i?"on":"";});
-      cap.textContent=CARRUSEL[i].cap;
-    }
-    function play(){
-      clearInterval(carTimer);
-      if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-      carTimer=setInterval(function(){ if(!document.hidden) ir(i+1); },4500);
-    }
-    car.addEventListener("click",function(e){var b=e.target.closest("[data-car]"); if(b){ir(Number(b.getAttribute("data-car"))); play();}});
-    car.addEventListener("touchstart",function(e){x0=e.touches[0].clientX;},{passive:true});
-    car.addEventListener("touchend",function(e){
-      if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
-      if(Math.abs(dx)>40){ir(i+(dx<0?1:-1)); play();}
-    },{passive:true});
-    car.addEventListener("mouseenter",function(){clearInterval(carTimer);});
-    car.addEventListener("mouseleave",play);
-    play();
+    carTimers.forEach(clearInterval); carTimers=[];
+    main.querySelectorAll(".car").forEach(function(car,ci){
+      var C=CARRUSELES[car.getAttribute("data-carid")].fotos;
+      var imgs=car.querySelectorAll("img"), dots=car.querySelectorAll("[data-car]"), cap=car.querySelector(".cap"), i=0, x0=null;
+      function ir(n){
+        i=(n+imgs.length)%imgs.length;
+        Array.prototype.forEach.call(imgs,function(m,k){m.className=k===i?"on":"";});
+        Array.prototype.forEach.call(dots,function(d,k){d.className=k===i?"on":"";});
+        cap.textContent=C[i].cap;
+      }
+      function stop(){clearInterval(carTimers[ci]);}
+      function play(){
+        stop();
+        if(imgs.length<2||(window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches)) return;
+        carTimers[ci]=setInterval(function(){ if(!document.hidden) ir(i+1); },4500);
+      }
+      car.addEventListener("click",function(e){var b=e.target.closest("[data-car]"); if(b){ir(Number(b.getAttribute("data-car"))); play();}});
+      car.addEventListener("touchstart",function(e){x0=e.touches[0].clientX;},{passive:true});
+      car.addEventListener("touchend",function(e){
+        if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
+        if(Math.abs(dx)>40){ir(i+(dx<0?1:-1)); play();}
+      },{passive:true});
+      car.addEventListener("mouseenter",stop);
+      car.addEventListener("mouseleave",play);
+      play();
+    });
   }
   function render(){
     main.innerHTML=(active==="todo"?CATS:CATS.filter(function(c){return c.id===active;})).map(section).join("");
