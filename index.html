@@ -159,6 +159,8 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
 .car .cdots button.on{background:var(--vino);box-shadow:none}
 @media (prefers-reduced-motion:reduce){.car img{transition:none}}
 @media (max-width:760px){.car{aspect-ratio:3/2}}
+.car.fit{aspect-ratio:3/4;max-width:480px;background:#F2F2F3}
+.car.fit img{object-fit:contain}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
 
@@ -328,6 +330,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
         h+='<h3>'+g+'</h3><ul class="list">'+P.filter(function(p){return p.cat==="bocaditos"&&p.grupo===g;}).map(row).join("")+'</ul>';
       });
     } else if(c.id==="packs"){
+      h+=carrusel("pack");
       h+='<ul class="list">'+PACKS.map(row).join("")+'</ul>';
     } else if(c.id==="tortas"){
       h+='<div class="slwrap"><div class="slider" id="sl-tortas" tabindex="0" aria-label="Tortas, desliza para ver más">'+P.filter(function(p){return p.cat===c.id;}).map(card).join("")+'</div>'+
@@ -349,11 +352,15 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     tem:{label:"Fotos de dulces temáticos",fotos:[
       {src:"tematicos-carrusel-01.jpg",alt:"Cupcakes temáticos de unicornio en cúpulas individuales",cap:"Cumpleaños"},
       {src:"tematicos-carrusel-02.jpg",alt:"Galletas, cakepops, lacepops y cupcakes temáticos de bautizo y comunión",cap:"Bautizo y Comunión"}
+    ]},
+    pack:{label:"Fotos de packs de torta y dulces",fit:true,fotos:[
+      {src:"packs-carrusel-01.jpg",alt:"Pack de confirmación: torta con cruz dorada, cakepops, galletas, lacepops, cupcakes, empanadas y bocaditos salados",cap:"Confirmación"},
+      {src:"packs-carrusel-02.jpg",alt:"Pack de cumpleaños temático: torta morada personalizada con cupcakes, cakepops y galletas",cap:"Cumpleaños"}
     ]}
   };
   function carrusel(k){
     var C=CARRUSELES[k].fotos;
-    return '<div class="car" data-carid="'+k+'" aria-roledescription="carrusel" aria-label="'+esc(CARRUSELES[k].label)+'">'+
+    return '<div class="car'+(CARRUSELES[k].fit?' fit':'')+'" data-carid="'+k+'" aria-roledescription="carrusel" aria-label="'+esc(CARRUSELES[k].label)+'">'+
       C.map(function(f,i){return '<img src="'+f.src+'" alt="'+esc(f.alt)+'"'+(i?' loading="lazy"':'')+(i===0?' class="on"':'')+'>';}).join("")+
       '<span class="cap">'+esc(C[0].cap)+'</span>'+
       '<span class="cdots">'+C.map(function(f,i){return '<button type="button" data-car="'+i+'" aria-label="Ver foto '+(i+1)+': '+esc(f.cap)+'"'+(i===0?' class="on"':'')+'></button>';}).join("")+'</span></div>';
