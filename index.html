@@ -95,6 +95,10 @@ main{padding-bottom:96px}
 .add{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--linea);background:var(--blanco);color:var(--vino);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,border-color .2s}
 .add:hover{border-color:var(--vino)}
 .add.on{background:var(--vino);border-color:var(--vino);color:var(--blanco)}
+.qty{flex:none;display:inline-flex;align-items:center;gap:2px;border:1px solid var(--vino);border-radius:999px;padding:2px;background:var(--blanco)}
+.qty button{width:30px;height:30px;border-radius:50%;border:0;background:none;color:var(--vino);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.qty button:hover{background:var(--crema)}
+.qty output{min-width:26px;text-align:center;font-variant-numeric:tabular-nums;font-weight:500;color:var(--vino)}
 
 /* Footer */
 footer{border-top:1px solid var(--linea)}
@@ -319,9 +323,11 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   /* Render */
   var main=document.getElementById("main");
   function row(p){
-    var on=cart[p.id]>0;
-    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span><span class="p">'+money(p.precio)+'</span>'+
-      '<button class="add'+(on?' on':'')+'" type="button" data-add="'+p.id+'" aria-label="'+(on?'Quitar ':'Agregar ')+esc(full(p))+'">'+(on?'✓':'+')+'</button></li>';
+    var q=cart[p.id]||0, nm=esc(full(p));
+    var ctl=q>0
+      ? '<span class="qty"><button type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">−</button><output aria-live="polite">'+q+'</output><button type="button" data-inc="'+p.id+'" aria-label="Agregar uno más de '+nm+'">+</button></span>'
+      : '<button class="add" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button>';
+    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span><span class="p">'+money(p.precio)+'</span>'+ctl+'</li>';
   }
   function card(p){
     return '<button class="card'+(cart[p.id]?' on':'')+'" type="button" data-open="'+p.id+'"><div class="pic">'+pic(p)+(p.fotos&&p.fotos.length>1?'<span class="cnt">'+p.fotos.length+' fotos</span>':'')+'</div><span class="nm">'+esc(p.nombre)+'</span><span class="pr">'+priceTxt(p)+'</span></button>';
@@ -420,9 +426,17 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   }
   main.addEventListener("click",function(e){
     var s=e.target.closest("[data-sl]"); if(s){var sl=document.getElementById("sl-tortas"); sl.scrollBy({left:(+s.dataset.sl)*sl.children[0].getBoundingClientRect().width,behavior:"smooth"});return;}
+    var i=e.target.closest("[data-inc]"); if(i){change(i.dataset.inc,1);return;}
+    var d=e.target.closest("[data-dec]"); if(d){change(d.dataset.dec,-1);return;}
     var a=e.target.closest("[data-add]"); if(a){toggle(a.dataset.add);return;}
     var o=e.target.closest("[data-open]"); if(o) openItem(o.dataset.open);
   });
+  function change(id,dq){
+    var q=(cart[id]||0)+dq; if(q>99) q=99;
+    if(q<=0) delete cart[id]; else cart[id]=q;
+    save(); render(); updateBar();
+    var el=main.querySelector('[data-inc="'+id+'"]'); if(el) el.focus();
+  }
   function toggle(id){ if(cart[id]) delete cart[id]; else cart[id]=1; save(); render(); updateBar(); var el=main.querySelector('[data-add="'+id+'"]'); if(el) el.focus(); }
 
   /* Ficha */
