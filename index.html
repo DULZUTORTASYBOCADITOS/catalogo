@@ -95,10 +95,14 @@ main{padding-bottom:96px}
 .add{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--linea);background:var(--blanco);color:var(--vino);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,border-color .2s}
 .add:hover{border-color:var(--vino)}
 .add.on{background:var(--vino);border-color:var(--vino);color:var(--blanco)}
-.qty{flex:none;display:inline-flex;align-items:center;gap:2px;border:1px solid var(--vino);border-radius:999px;padding:2px;background:var(--blanco)}
-.qty button{width:30px;height:30px;border-radius:50%;border:0;background:none;color:var(--vino);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center}
-.qty button:hover{background:var(--crema)}
-.qty output{min-width:26px;text-align:center;font-variant-numeric:tabular-nums;font-weight:500;color:var(--vino)}
+.row .p{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.row .p .un{font-size:13px;color:var(--camel)}
+.row .n .cant{display:flex;margin-top:8px}
+.cant{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--vino)}
+.cant button{width:24px;height:24px;border-radius:50%;border:1px solid var(--vino);background:var(--blanco);color:var(--vino);font-size:15px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+.cant button:hover{background:var(--crema)}
+.cant output{min-width:18px;text-align:center;font-weight:500;font-variant-numeric:tabular-nums}
+.cant .u{color:var(--camel)}
 
 /* Footer */
 footer{border-top:1px solid var(--linea)}
@@ -324,10 +328,10 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   var main=document.getElementById("main");
   function row(p){
     var q=cart[p.id]||0, nm=esc(full(p));
-    var ctl=q>0
-      ? '<span class="qty"><button type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">−</button><output aria-live="polite">'+q+'</output><button type="button" data-inc="'+p.id+'" aria-label="Agregar uno más de '+nm+'">+</button></span>'
-      : '<button class="add" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button>';
-    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span><span class="p">'+money(p.precio)+'</span>'+ctl+'</li>';
+    var cant=q>0 ? '<span class="cant"><button type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">−</button><output aria-live="polite">'+q+'</output><span class="u">'+(q===1?'paquete':'paquetes')+'</span></span>' : '';
+    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+cant+'</span>'+
+      '<span class="p"><span class="pr1">'+money(p.precio)+'</span>'+(p.u?'<small class="un">'+p.u+' u.</small>':'')+'</span>'+
+      '<button class="add'+(q>0?' on':'')+'" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button></li>';
   }
   function card(p){
     return '<button class="card'+(cart[p.id]?' on':'')+'" type="button" data-open="'+p.id+'"><div class="pic">'+pic(p)+(p.fotos&&p.fotos.length>1?'<span class="cnt">'+p.fotos.length+' fotos</span>':'')+'</div><span class="nm">'+esc(p.nombre)+'</span><span class="pr">'+priceTxt(p)+'</span></button>';
