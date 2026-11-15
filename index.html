@@ -97,7 +97,7 @@ main{padding-bottom:96px}
 .add.on{background:var(--vino);border-color:var(--vino);color:var(--blanco)}
 .row .p{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .row .p .un{font-size:13px;color:var(--camel)}
-.row .n .cant{display:flex;margin-top:8px}
+.row .p .cant{margin-top:3px}
 .cant{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--vino)}
 .cant button{width:24px;height:24px;border-radius:50%;border:1px solid var(--vino);background:var(--blanco);color:var(--vino);font-size:15px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
 .cant button:hover{background:var(--crema)}
@@ -329,8 +329,8 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   function row(p){
     var q=cart[p.id]||0, nm=esc(full(p));
     var cant=q>0 ? '<span class="cant"><button type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">−</button><output aria-live="polite">'+q+'</output><span class="u">'+(q===1?'paquete':'paquetes')+'</span></span>' : '';
-    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+cant+'</span>'+
-      '<span class="p"><span class="pr1">'+money(p.precio)+'</span>'+(p.u?'<small class="un">'+p.u+' u.</small>':'')+'</span>'+
+    return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span>'+
+      '<span class="p"><span class="pr1">'+money(p.precio)+'</span>'+(p.u?'<small class="un">'+p.u+' unidades</small>':'')+cant+'</span>'+
       '<button class="add'+(q>0?' on':'')+'" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button></li>';
   }
   function card(p){
