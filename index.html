@@ -104,6 +104,46 @@ main{padding-bottom:96px}
 .cant output{min-width:18px;text-align:center;font-weight:500;font-variant-numeric:tabular-nums}
 .cant .u{color:var(--camel)}
 
+/* Calculadora de packs */
+.calc{display:flex;flex-direction:column;gap:30px;max-width:760px;margin:0 auto}
+.clab{display:block;margin:0 0 10px;font-size:12.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--camel)}
+.occ{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--linea);background:var(--blanco);border-radius:999px;padding:9px 18px;font-size:14.5px;color:var(--camel);cursor:pointer;transition:border-color .2s,background .2s}
+.chip:hover{border-color:var(--vino)}
+.chip[aria-pressed="true"]{border-color:var(--vino);background:#FCE9E8;color:var(--vino)}
+.step2{display:inline-flex;align-items:center;gap:10px}
+.step2 button{width:40px;height:40px;border-radius:50%;border:1px solid var(--linea);background:var(--blanco);color:var(--vino);font-size:20px;line-height:1;cursor:pointer}
+.step2 button:hover{border-color:var(--vino)}
+.step2 input{width:92px;text-align:center;font:400 22px var(--display);color:var(--cacao);border:0;border-bottom:1px solid var(--linea);padding:6px 0;background:none;-moz-appearance:textfield}
+.step2 input::-webkit-outer-spin-button,.step2 input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.step2 input:focus{outline:none;border-bottom-color:var(--vino)}
+.lvls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lvl{display:flex;flex-direction:column;gap:3px;text-align:left;border:1px solid var(--linea);background:var(--blanco);border-radius:10px;padding:16px;cursor:pointer;transition:border-color .2s}
+.lvl:hover{border-color:var(--vino)}
+.lvl[aria-pressed="true"]{border-color:var(--vino);box-shadow:inset 0 0 0 1px var(--vino)}
+.lvl .ln{font-family:var(--display);font-size:21px;color:var(--vino)}
+.lvl small{font-size:13px;color:var(--camel);line-height:1.35}
+.lvl .lp{margin-top:8px;font-size:13px;color:var(--cacao);font-variant-numeric:tabular-nums}
+.slot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--linea)}
+.slot:first-child{border-top:1px solid var(--linea)}
+.slot>span{flex:none;font-size:15px}
+.slot select{flex:1;min-width:0;max-width:400px;font:400 15px var(--body);color:var(--cacao);background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:9px 10px}
+.slot select:focus{outline:none;border-color:var(--vino)}
+#c-res{border-top:1px solid var(--linea);padding-top:26px}
+.sec h3.ctit{margin:0 0 12px;display:block;font-family:var(--display);font-weight:400;font-style:normal;font-size:24px;color:var(--vino)}
+.sec h3.ctit::before{display:none}
+.ctot{margin-top:16px;font-size:18px;font-weight:500}
+.cmeta{margin:8px 0 0;font-size:14px;color:var(--camel)}
+.cmeta.ok{color:#1A7A3D}
+.acts2{display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px;margin-top:20px}
+.acts2 .btn{background:var(--coral)}
+.acts2 .btn:hover{background:var(--vino)}
+@media (max-width:760px){
+  .lvls{grid-template-columns:1fr}
+  .slot{flex-direction:column;align-items:stretch;gap:6px}
+  .slot select{max-width:none}
+}
+
 /* Footer */
 footer{border-top:1px solid var(--linea)}
 footer .in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-block:32px calc(32px + 64px);font-size:14px;color:var(--camel)}
@@ -230,7 +270,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     {id:"tortas", nombre:"Tortas", nota:"Por encargo. Se cotizan según el diseño.", vista:"grid"},
     {id:"bocaditos", nombre:"Bocaditos", nota:"Paquetes de 25 unidades.", vista:"list"},
     {id:"tematicos", nombre:"Temáticos", nota:"Decorados con el tema de tu evento. Precio por unidad.", vista:"grid"},
-    {id:"packs", nombre:"Packs", nota:"Combinaciones de nuestra carta.", vista:"list"},
+    {id:"packs", nombre:"Packs", nota:"Dinos cuántos invitados tendrás y armamos tu pack.", vista:"calc"},
     /* Postres ocultos por ahora: para mostrarlos, vuelve a agregar {id:"postres", nombre:"Postres", nota:"Turrón artesanal."} */
   ];
   var P = [
@@ -277,26 +317,28 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     {id:"p3", cat:"postres", nombre:"Turrón cuchareable 8 oz", desc:"Capas de masa, miel y grageas en vaso, para comer con cuchara.", precio:11, foto:""}
   ];
 
-  /* Packs: armados con productos y precios de la carta (precio = suma de la carta). */
-  var PACKS = [
-    {id:"k1", nombre:"Pack Dulce", items:["b1","b3","b2"], foto:""},
-    {id:"k2", nombre:"Pack Salado", items:["s2","s1","s3"], foto:""},
-    {id:"k3", nombre:"Pack Compartir", items:["b1","b3","s2","s4"], foto:""}
+  /* Packs por invitado: cada variedad aporta 1 bocadito por invitado.
+     Precio = suma de la carta (paquetes de 25 u.). Se arma en la calculadora. */
+  var NIVELES = [
+    {id:"ligero",   nombre:"Ligero",   por:"3 bocaditos por invitado", nota:"Para acompañar tu torta",
+      sal:["s4"], dul:["b1","b3"], tem:"", fac:1},
+    {id:"estandar", nombre:"Estándar", por:"5 bocaditos por invitado", nota:"Para una celebración completa",
+      sal:["s1","s4"], dul:["b1","b2","b5"], tem:"", fac:1},
+    {id:"premium",  nombre:"Premium",  por:"6 bocaditos + 1 temático por invitado", nota:"Selección especial",
+      sal:["s5","s6","s8"], dul:["b9","b8","b7"], tem:"m1", fac:1}
   ];
+  /* Ocasiones: punto de partida (nivel + dulce temático). Se puede cambiar todo. */
+  var OCASIONES = [
+    {id:"bautizo",    nombre:"Bautizos y Comunión", nivel:"estandar", tem:"m3", fac:1},
+    {id:"babyshower", nombre:"Baby shower",         nivel:"estandar", tem:"m1", fac:1},
+    {id:"infantil",   nombre:"Cumple infantil",     nivel:"ligero",   tem:"m1", fac:1}
+  ];
+  var MIN_INV = 20, MAX_INV = 500;
 
   var SABORES = ["Vainilla","Chocolate","Naranja","Keke inglés","Dubai pistacho"];
 
   /* ===================================================================== */
   var byId = {}; P.forEach(function(p){ byId[p.id]=p; });
-  /* Nombres cortos (en plural) para describir el contenido de los packs */
-  var CORTO={b1:"mini alfajores",b2:"mini brownies",b3:"trufas",s1:"petipanes de pollo",s2:"tequeños de queso",s3:"empanadas de carne",s4:"mini croissants mixtos"};
-  PACKS.forEach(function(k){
-    k.cat="packs";
-    k.precio=k.items.reduce(function(s,id){return s+byId[id].precio;},0);
-    k.u=k.items.reduce(function(s,id){return s+(byId[id].u||0);},0);
-    k.desc=k.items.map(function(id){ var x=byId[id]; return x.u+" "+(CORTO[id]||x.nombre.toLowerCase()); }).join(" + ");
-    byId[k.id]=k;
-  });
   var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
   var money=function(n){return "S/ "+n.toFixed(2);};
   var full=function(p){return p.nombre+(p.desc&&p.cat==="bocaditos"?" "+p.desc:"");};
@@ -347,7 +389,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
       });
     } else if(c.id==="packs"){
       h+=carrusel("pack");
-      h+='<ul class="list">'+PACKS.map(row).join("")+'</ul>';
+      h+=calcShell();
     } else if(c.id==="tortas"){
       h+='<div class="slwrap"><div class="slider" id="sl-tortas" tabindex="0" aria-label="Tortas, desliza para ver más">'+P.filter(function(p){return p.cat===c.id;}).map(card).join("")+'</div>'+
         '<div class="slnav"><span class="dots" id="sl-dots"></span><span><button class="arr" type="button" data-sl="-1" aria-label="Anterior">←</button><button class="arr" type="button" data-sl="1" aria-label="Siguiente">→</button></span></div></div>';
@@ -414,6 +456,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     main.innerHTML=(active==="todo"?CATS:CATS.filter(function(c){return c.id===active;})).map(section).join("");
     initSlider();
     initCarrusel();
+    paint();
   }
   /* Slide de tortas */
   function initSlider(){
@@ -438,12 +481,129 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     var o=e.target.closest("[data-open]"); if(o) openItem(o.dataset.open);
   });
   function change(id,dq){
-    var q=(cart[id]||0)+dq; if(q>99) q=99;
+    var q=(cart[id]||0)+dq; if(q>999) q=999;
     if(q<=0) delete cart[id]; else cart[id]=q;
     save(); render(); updateBar();
     var el=main.querySelector('[data-inc="'+id+'"]'); if(el) el.focus();
   }
   function toggle(id){ if(cart[id]) delete cart[id]; else cart[id]=1; save(); render(); updateBar(); var el=main.querySelector('[data-add="'+id+'"]'); if(el) el.focus(); }
+
+  /* ===== Calculadora de packs (bocaditos por invitado) ===== */
+  function nivelDe(id){ return NIVELES.filter(function(n){return n.id===id;})[0]; }
+  var C={inv:25, nivel:"estandar", sal:NIVELES[1].sal.slice(), dul:NIVELES[1].dul.slice(), tem:"", fac:1, occ:"", aviso:""};
+  var packNote="";
+  function invOk(){ var n=Math.round(Number(C.inv)); if(!(n>=MIN_INV)) n=MIN_INV; return Math.min(n,MAX_INV); }
+  /* Reparte los paquetes necesarios entre las variedades: cubre "need" unidades con el menor sobrante. */
+  function reparto(ids,need){
+    var u=ids.map(function(){return 0;}), q=ids.map(function(){return 0;}), tot=0, g=0;
+    while(tot<need && g++<1000){
+      var k=0; for(var i=1;i<ids.length;i++) if(u[i]<u[k]) k=i;
+      q[k]++; u[k]+=byId[ids[k]].u; tot+=byId[ids[k]].u;
+    }
+    return q;
+  }
+  function armar(cfg){
+    var lin={}, orden=[];
+    [cfg.sal,cfg.dul].forEach(function(ids){
+      var q=reparto(ids,cfg.inv*ids.length);
+      ids.forEach(function(id,i){ if(!q[i]) return; if(!lin[id]){lin[id]=0;orden.push(id);} lin[id]+=q[i]; });
+    });
+    var L=orden.map(function(id){var p=byId[id]; return {id:id,q:lin[id],u:lin[id]*p.u,t:lin[id]*p.precio};});
+    var tq=0, tt=0;
+    if(cfg.tem){ tq=Math.ceil(cfg.inv*cfg.fac-1e-9); tt=tq*byId[cfg.tem].precio; }
+    var total=L.reduce(function(s,l){return s+l.t;},0)+tt;
+    var unidades=L.reduce(function(s,l){return s+l.u;},0)+tq;
+    return {lineas:L,tq:tq,tt:tt,total:total,unidades:unidades};
+  }
+  function cfgActual(){ return {inv:invOk(),sal:C.sal,dul:C.dul,tem:C.tem,fac:Number(C.fac)}; }
+  function calcShell(){
+    return '<div class="calc" id="calc">'+
+      '<div><p class="clab">Ocasión (opcional)</p><div class="occ" id="c-occ"></div></div>'+
+      '<div><label class="clab" for="c-inv">¿Cuántos invitados?</label><div class="step2">'+
+        '<button type="button" data-cinv="-5" aria-label="5 invitados menos">−</button>'+
+        '<input id="c-inv" type="number" inputmode="numeric" min="'+MIN_INV+'" max="'+MAX_INV+'" value="'+C.inv+'">'+
+        '<button type="button" data-cinv="5" aria-label="5 invitados más">+</button></div></div>'+
+      '<div><p class="clab" id="c-lvlab">Nivel del pack</p><div class="lvls" id="c-lv" role="group" aria-labelledby="c-lvlab"></div></div>'+
+      '<div><p class="clab">Tu menú</p><div id="c-slots"></div></div>'+
+      '<div id="c-res" aria-live="polite"></div></div>';
+  }
+  function opts(grupo,sel){
+    return P.filter(function(p){return p.cat==="bocaditos"&&p.grupo===grupo;}).map(function(p){
+      return '<option value="'+p.id+'"'+(p.id===sel?' selected':'')+'>'+esc(full(p))+' · '+money(p.precio)+'</option>';
+    }).join("");
+  }
+  function packTitulo(inv){ return "Pack "+nivelDe(C.nivel).nombre+" para "+inv+" invitados"; }
+  function ocNombre(){ var o=OCASIONES.filter(function(x){return x.id===C.occ;})[0]; return o?o.nombre:""; }
+  function packMsg(r,inv){
+    return "¡Hola Dulzú! Quiero armar un "+packTitulo(inv)+(C.occ?" (ocasión: "+ocNombre()+")":"")+":\n"+
+      r.lineas.map(function(l){var p=byId[l.id]; return "• "+l.q+" paq. "+full(p)+" ("+l.u+" u.) — "+money(l.t);}).join("\n")+
+      (r.tq?"\n• "+r.tq+" u. "+byId[C.tem].nombre+" — "+money(r.tt):"")+
+      "\n\nTotal referencial: "+money(r.total)+" (IGV incluido)\n\nFecha del evento: \nDistrito: ";
+  }
+  function paint(){
+    var root=document.getElementById("calc"); if(!root) return;
+    var ae=document.activeElement, fid=(ae&&ae.id&&root.contains(ae))?ae.id:null;
+    var inv=invOk(), niv=nivelDe(C.nivel);
+    document.getElementById("c-occ").innerHTML=OCASIONES.map(function(o){
+      return '<button type="button" class="chip" data-occ="'+o.id+'" aria-pressed="'+(C.occ===o.id)+'">'+esc(o.nombre)+'</button>';
+    }).join("");
+    document.getElementById("c-lv").innerHTML=NIVELES.map(function(n){
+      var pp=armar({inv:inv,sal:n.sal,dul:n.dul,tem:n.tem,fac:n.fac}).total/inv;
+      return '<button type="button" class="lvl" data-nivel="'+n.id+'" aria-pressed="'+(C.nivel===n.id)+'"><span class="ln">'+n.nombre+'</span><small>'+n.por+'</small><small>'+n.nota+'</small><span class="lp">Menú base ≈ '+money(pp)+' por invitado</span></button>';
+    }).join("");
+    var sl="";
+    C.sal.forEach(function(id,i){ sl+='<label class="slot"><span>Salado'+(C.sal.length>1?' '+(i+1):'')+'</span><select id="c-s'+i+'" data-slot="sal" data-i="'+i+'">'+opts("Salados",id)+'</select></label>'; });
+    C.dul.forEach(function(id,i){ sl+='<label class="slot"><span>Dulce'+(C.dul.length>1?' '+(i+1):'')+'</span><select id="c-d'+i+'" data-slot="dul" data-i="'+i+'">'+opts("Dulces",id)+'</select></label>'; });
+    sl+='<label class="slot"><span>Dulces temáticos</span><select id="c-tem"><option value="">Sin temáticos</option>'+
+      P.filter(function(p){return p.cat==="tematicos";}).map(function(p){return '<option value="'+p.id+'"'+(p.id===C.tem?' selected':'')+'>'+esc(p.nombre)+' · '+money(p.precio)+' c/u</option>';}).join("")+'</select></label>';
+    if(C.tem){
+      sl+='<label class="slot"><span>Cantidad de temáticos</span><select id="c-fac">'+
+        [[0.5,"½ por invitado"],[1,"1 por invitado"],[2,"2 por invitado"]].map(function(f){return '<option value="'+f[0]+'"'+(Number(C.fac)===f[0]?' selected':'')+'>'+f[1]+'</option>';}).join("")+'</select></label>';
+    }
+    document.getElementById("c-slots").innerHTML=sl;
+    var r=armar(cfgActual());
+    var res='<h3 class="ctit">'+esc(packTitulo(inv))+'</h3><ul class="list">'+
+      r.lineas.map(function(l){var p=byId[l.id]; return '<li class="row"><span class="n">'+l.q+' × '+esc(full(p))+'<small>'+l.u+' unidades</small></span><span class="p">'+money(l.t)+'</span></li>';}).join("")+
+      (r.tq?'<li class="row"><span class="n">'+r.tq+' × '+esc(byId[C.tem].nombre)+'<small>Decorados con el tema de tu evento</small></span><span class="p">'+money(r.tt)+'</span></li>':'')+
+      '</ul><div class="tot ctot"><span>Total referencial (IGV incluido)</span><span>'+money(r.total)+'</span></div>'+
+      '<p class="cmeta">'+money(r.total/inv)+' por invitado · ≈ '+(Math.round(r.unidades/inv*10)/10)+' unidades por invitado</p>'+
+      (Number(C.inv)<MIN_INV||!(Number(C.inv)>0)?'<p class="cmeta">Calculamos desde '+MIN_INV+' invitados.</p>':'')+
+      '<div class="acts2"><button class="btn" type="button" data-cadd>Agregar al pedido</button><a class="lnk" target="_blank" rel="noopener" href="'+wa(packMsg(r,inv))+'">Pedir este pack por WhatsApp</a></div>'+
+      (C.aviso?'<p class="cmeta ok">'+esc(C.aviso)+'</p>':'')+
+      '<p class="cmeta">Los bocaditos se entregan en paquetes de 25 unidades (tequeños, de 30). La torta se cotiza aparte: <a class="lnk" href="#tortas">ver tortas</a>.</p>';
+    document.getElementById("c-res").innerHTML=res;
+    if(fid){ var f=document.getElementById(fid); if(f&&f!==ae) f.focus(); }
+  }
+  function setNivel(id){
+    var n=nivelDe(id); C.nivel=id; C.sal=n.sal.slice(); C.dul=n.dul.slice(); C.tem=n.tem; C.fac=n.fac; C.occ=""; C.aviso=""; paint();
+  }
+  function aplicarOcasion(id){
+    var o=OCASIONES.filter(function(x){return x.id===id;})[0], n=nivelDe(o.nivel);
+    C.nivel=n.id; C.sal=n.sal.slice(); C.dul=n.dul.slice(); C.tem=o.tem; C.fac=o.fac; C.occ=o.id; C.aviso=""; paint();
+  }
+  function addPack(){
+    var r=armar(cfgActual());
+    r.lineas.forEach(function(l){ cart[l.id]=Math.min(999,(cart[l.id]||0)+l.q); });
+    if(r.tq) cart[C.tem]=Math.min(999,(cart[C.tem]||0)+r.tq);
+    packNote=packTitulo(invOk())+(C.occ?" · "+ocNombre():"");
+    C.aviso="Agregado a tu pedido. Puedes revisarlo abajo.";
+    save(); render(); updateBar();
+  }
+  main.addEventListener("click",function(e){
+    var o=e.target.closest("[data-occ]"); if(o){aplicarOcasion(o.dataset.occ);return;}
+    var n=e.target.closest("[data-nivel]"); if(n){setNivel(n.dataset.nivel);return;}
+    var s=e.target.closest("[data-cinv]");
+    if(s){ C.inv=Math.min(MAX_INV,Math.max(MIN_INV,invOk()+Number(s.dataset.cinv))); var el=document.getElementById("c-inv"); if(el) el.value=C.inv; C.aviso=""; paint(); return; }
+    if(e.target.closest("[data-cadd]")) addPack();
+  });
+  main.addEventListener("input",function(e){ if(e.target.id==="c-inv"){ C.inv=e.target.value; C.aviso=""; paint(); } });
+  main.addEventListener("change",function(e){
+    var t=e.target; C.aviso="";
+    if(t.id==="c-inv"){ C.inv=invOk(); t.value=C.inv; paint(); }
+    else if(t.dataset.slot){ C[t.dataset.slot][+t.dataset.i]=t.value; paint(); }
+    else if(t.id==="c-tem"){ C.tem=t.value; paint(); }
+    else if(t.id==="c-fac"){ C.fac=Number(t.value); paint(); }
+  });
 
   /* Ficha */
   var dlg=document.getElementById("dlg");
@@ -480,10 +640,10 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   var bar=document.getElementById("bar"), barTxt=document.getElementById("barTxt"), cd=document.getElementById("cart"), fecha="", dist="";
   function lines(){return Object.keys(cart).map(function(id){return {p:byId[id],q:cart[id]};});}
   function tot(){var t=0,c=0;lines().forEach(function(l){if(l.p.precio==null)c++;else t+=l.p.precio*l.q;});return {t:t,c:c,n:lines().length};}
-  function updateBar(){var s=tot(); bar.hidden=!s.n; barTxt.innerHTML='<b>'+s.n+(s.n===1?' producto':' productos')+'</b>'+(s.t?' · '+money(s.t):'')+(s.c?' · '+s.c+' a cotizar':'');}
+  function updateBar(){var s=tot(); if(!s.n) packNote=""; bar.hidden=!s.n; barTxt.innerHTML='<b>'+s.n+(s.n===1?' producto':' productos')+'</b>'+(s.t?' · '+money(s.t):'')+(s.c?' · '+s.c+' a cotizar':'');}
   function msg(){
     var s=tot();
-    return "¡Hola Dulzú! Quiero hacer este pedido:\n"+lines().map(function(l){var p=l.p;
+    return "¡Hola Dulzú! Quiero hacer este pedido:\n"+(packNote?"("+packNote+")\n":"")+lines().map(function(l){var p=l.p;
       return "• "+(p.precio==null?(l.q>1?l.q+" × ":"")+p.nombre+" (a cotizar)":l.q+(p.cat==="bocaditos"?" paq. ":p.cat==="tematicos"?" u. ":" ")+full(p)+" — "+money(p.precio*l.q));}).join("\n")+
       (s.t?"\n\nTotal referencial: "+money(s.t)+" (IGV incluido)":"")+"\n\nFecha del evento: "+fecha+"\nDistrito: "+dist;
   }
