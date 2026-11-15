@@ -288,11 +288,13 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
 
   /* ===================================================================== */
   var byId = {}; P.forEach(function(p){ byId[p.id]=p; });
+  /* Nombres cortos (en plural) para describir el contenido de los packs */
+  var CORTO={b1:"mini alfajores",b2:"mini brownies",b3:"trufas",s1:"petipanes de pollo",s2:"tequeños de queso",s3:"empanadas de carne",s4:"mini croissants mixtos"};
   PACKS.forEach(function(k){
     k.cat="packs";
     k.precio=k.items.reduce(function(s,id){return s+byId[id].precio;},0);
     k.u=k.items.reduce(function(s,id){return s+(byId[id].u||0);},0);
-    k.desc=k.items.map(function(id){ var x=byId[id]; return x.nombre+(x.desc?" "+x.desc:""); }).join(" · ");
+    k.desc=k.items.map(function(id){ var x=byId[id]; return x.u+" "+(CORTO[id]||x.nombre.toLowerCase()); }).join(" + ");
     byId[k.id]=k;
   });
   var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
