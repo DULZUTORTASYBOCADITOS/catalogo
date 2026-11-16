@@ -331,7 +331,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   var main=document.getElementById("main");
   function row(p){
     var q=cart[p.id]||0, nm=esc(full(p));
-    var un=p.u?'<small class="un">'+p.u+' unidades'+(q>0?' · '+q+(q===1?' paquete':' paquetes'):'')+'</small>':'';
+    var un=p.u?'<small class="un">'+(q>0?q*p.u:p.u)+' unidades</small>':'';
     var ctl=(q>0?'<button class="add" type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">\u2212</button><output class="qn" aria-live="polite">'+q+'</output>':'')+
       '<button class="add'+(q>0?' on':'')+'" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button>';
     return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span>'+
