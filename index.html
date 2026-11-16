@@ -97,7 +97,8 @@ main{padding-bottom:96px}
 .add.on{background:var(--vino);border-color:var(--vino);color:var(--blanco)}
 .row .p{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .row .p .un{font-size:13px;color:var(--camel)}
-.row .p .cant{margin-top:3px}
+.ctl{flex:none;display:flex;align-items:center;gap:8px}
+.ctl .qn{min-width:18px;text-align:center;font-weight:500;color:var(--vino);font-variant-numeric:tabular-nums}
 .cant{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--vino)}
 .cant button{width:24px;height:24px;border-radius:50%;border:1px solid var(--vino);background:var(--blanco);color:var(--vino);font-size:15px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
 .cant button:hover{background:var(--crema)}
@@ -330,10 +331,12 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   var main=document.getElementById("main");
   function row(p){
     var q=cart[p.id]||0, nm=esc(full(p));
-    var cant=q>0 ? '<span class="cant"><button type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">−</button><output aria-live="polite">'+q+'</output><span class="u">'+(q===1?'paquete':'paquetes')+'</span></span>' : '';
+    var un=p.u?'<small class="un">'+p.u+' unidades'+(q>0?' · '+q+(q===1?' paquete':' paquetes'):'')+'</small>':'';
+    var ctl=(q>0?'<button class="add" type="button" data-dec="'+p.id+'" aria-label="Quitar uno de '+nm+'">\u2212</button><output class="qn" aria-live="polite">'+q+'</output>':'')+
+      '<button class="add'+(q>0?' on':'')+'" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button>';
     return '<li class="row"><span class="n">'+esc(p.nombre)+(p.desc?'<small>'+esc(p.desc)+'</small>':'')+'</span>'+
-      '<span class="p"><span class="pr1">'+money(p.precio)+'</span>'+(p.u?'<small class="un">'+p.u+' unidades</small>':'')+cant+'</span>'+
-      '<button class="add'+(q>0?' on':'')+'" type="button" data-inc="'+p.id+'" aria-label="Agregar '+nm+'">+</button></li>';
+      '<span class="p"><span class="pr1">'+money(p.precio)+'</span>'+un+'</span>'+
+      '<span class="ctl">'+ctl+'</span></li>';
   }
   function card(p){
     return '<button class="card'+(cart[p.id]?' on':'')+'" type="button" data-open="'+p.id+'"><div class="pic">'+pic(p)+(p.fotos&&p.fotos.length>1?'<span class="cnt">'+p.fotos.length+' fotos</span>':'')+'</div><span class="nm">'+esc(p.nombre)+'</span><span class="pr">'+priceTxt(p)+'</span></button>';
