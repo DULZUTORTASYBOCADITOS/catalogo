@@ -183,6 +183,11 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
 @media (max-width:760px){.car{aspect-ratio:3/2}}
 .car.fit{aspect-ratio:3/4;max-width:480px;background:#F2F2F3}
 .car.fit img{object-fit:contain}
+/* Foto horizontal en marco vertical: llena el marco con zoom lento y paneo de izquierda a derecha */
+.car.fit img[data-pan]{object-fit:cover;object-position:8% 50%;transform-origin:50% 30%}
+.car.fit img[data-pan].on{animation:panfoto 5s ease-in-out forwards}
+@keyframes panfoto{from{object-position:8% 50%;transform:scale(1)}to{object-position:92% 50%;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.car.fit img[data-pan].on{animation:none;object-position:50% 50%;transform:none}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
 
@@ -400,13 +405,13 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
     pack:{label:"Fotos de packs de torta y dulces",fit:true,fotos:[
       {src:"packs-carrusel-01.jpg",alt:"Pack de confirmación: torta con cruz dorada, cakepops, galletas, lacepops, cupcakes, empanadas y bocaditos salados",cap:"Confirmación"},
       {src:"packs-carrusel-02.jpg",alt:"Pack de cumpleaños temático: torta morada personalizada con cupcakes, cakepops y galletas",cap:"Cumpleaños"},
-      {src:"packs-carrusel-03.jpg",alt:"Pack de bautizo en rosa y dorado: torta con cruz dorada, cakepops con palomas, cupcakes, galletas de cruz y niña, chocobrownies en forma de biblia e iglesia, y cakesicles con alas",cap:"Bautizo"}
+      {src:"packs-carrusel-03.jpg",alt:"Pack de bautizo en rosa y dorado: torta con cruz dorada, cakepops con palomas, cupcakes, galletas de cruz y niña, chocobrownies en forma de biblia e iglesia, y cakesicles con alas",cap:"Bautizo",pan:true}
     ]}
   };
   function carrusel(k){
     var C=CARRUSELES[k].fotos;
     return '<div class="car'+(CARRUSELES[k].fit?' fit':'')+'" data-carid="'+k+'" aria-roledescription="carrusel" aria-label="'+esc(CARRUSELES[k].label)+'">'+
-      C.map(function(f,i){return '<img src="'+f.src+'" alt="'+esc(f.alt)+'"'+(i?' loading="lazy"':'')+(i===0?' class="on"':'')+'>';}).join("")+
+      C.map(function(f,i){return '<img src="'+f.src+'" alt="'+esc(f.alt)+'"'+(i?' loading="lazy"':'')+(f.pan?' data-pan':'')+(i===0?' class="on"':'')+'>';}).join("")+
       '<span class="cap">'+esc(C[0].cap)+'</span>'+
       '<span class="cdots">'+C.map(function(f,i){return '<button type="button" data-car="'+i+'" aria-label="Ver foto '+(i+1)+': '+esc(f.cap)+'"'+(i===0?' class="on"':'')+'></button>';}).join("")+'</span></div>';
   }
