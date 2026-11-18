@@ -301,10 +301,10 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
 
   /* Packs de torta + temáticos: precio fijo (torta 16 cm S/ 220 + temáticos de la carta, redondeado hacia abajo). Sirven para cualquier tema. */
   var PACKS_T = [
-    {id:"t1", nombre:"Pack Detalle", desc:"6 temáticos: 3 cakepops + 3 galletas", precio:271},
-    {id:"t2", nombre:"Pack Clásico", desc:"12 temáticos: 4 cakepops + 4 galletas + 4 cupcakes", precio:326},
-    {id:"t3", nombre:"Pack Celebración", desc:"15 temáticos, 1 por invitado: 5 cakepops + 4 galletas + 3 cupcakes + 3 chocobrownies", precio:360},
-    {id:"t4", nombre:"Pack Gran celebración", desc:"30 temáticos, 2 por invitado: 8 cakepops + 6 galletas + 6 lacepops + 5 cupcakes + 5 chocobrownies", precio:504}
+    {id:"pt1", nombre:"Pack Detalle", desc:"6 temáticos: 3 cakepops + 3 galletas", precio:271},
+    {id:"pt2", nombre:"Pack Clásico", desc:"12 temáticos: 4 cakepops + 4 galletas + 4 cupcakes", precio:326},
+    {id:"pt3", nombre:"Pack Celebración", desc:"15 temáticos, 1 por invitado: 5 cakepops + 4 galletas + 3 cupcakes + 3 chocobrownies", precio:360},
+    {id:"pt4", nombre:"Pack Gran celebración", desc:"30 temáticos, 2 por invitado: 8 cakepops + 6 galletas + 6 lacepops + 5 cupcakes + 5 chocobrownies", precio:504}
   ];
   PACKS_T.forEach(function(k){ k.cat="packs"; k.tam="16 cm"; k.uTxt="con torta 16 cm"; k.foto=""; });
 
@@ -336,7 +336,7 @@ dialog::backdrop{background:rgba(63,43,38,.4)}
   }
   function priceTxt(p){
     if(p.precio==null) return "A cotizar";
-    return money(p.precio)+(p.cat==="bocaditos"?" · "+p.u+" u.":p.cat==="packs"?" · "+p.u+" u.":p.cat==="tematicos"?" c/u":"");
+    return money(p.precio)+(p.uTxt?" · "+p.uTxt:(p.cat==="bocaditos"||p.cat==="packs")&&p.u?" · "+p.u+" u.":p.cat==="tematicos"?" c/u":"");
   }
 
   /* Pestañas */
